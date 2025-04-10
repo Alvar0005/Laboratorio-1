@@ -22,48 +22,44 @@ public class Main{
             System.err.println("Error de entrada: " + e.getMessage());
         }
         long tiempo_final=System.nanoTime();
-        double segundos_total=(tiempo_final-tiempo)/1_000_000_000.0;
-        int minutos=(int)(segundos_total/60);
-        int segundos=(int)(segundos_total%60);
-        int decimas=(int)((segundos_total*10)%10);
-        System.out.println(String.format("\nLa ejecución del testeo de la Matriz, se demoró (min:seg:dec): '" + minutos + "min : " + segundos + "seg : " + decimas + "dec'\n"));
+        System.out.println(String.format("\nLa ejecución del testeo de la Matriz, se demoró: " + tiempo_final + " nanosegundos.\n"));
     }
-    public static void TiempoTexto(String numericKey){
+    public static void TiempoTexto(String numericKey) {
         System.out.println("Tabla de encriptado vigenere:");
-        long tiempo=System.nanoTime();
+        long tiempo = System.nanoTime();
         BigVigenere clave = new BigVigenere(numericKey);
-        try{
-            BufferedReader Fr = new BufferedReader(new FileReader("El Ultimo Viaje de Elian.txt"));
+        try {                                                                  /*Cambiar la dirrección para que pueda leer el archivo*/
+            BufferedReader Fr = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\El Ultimo Viaje de Elian.txt"//nombre del .txt que desee leer));
             StringBuilder texto = new StringBuilder();
             String linea;
-            while((linea=Fr.readLine())!=null){
+            while ((linea = Fr.readLine()) != null) {
                 texto.append(linea).append("\n");
             }
             Fr.close();
 
-            String mensajeOriginal=texto.toString();
-            String mensajeEncriptado=clave.Encrypt(mensajeOriginal);
-            String mensajeDesencriptado=clave.Decrypt(mensajeEncriptado);
+            String mensajeOriginal = texto.toString();
+            String mensajeEncriptado = clave.Encrypt(mensajeOriginal);
+            String mensajeDesencriptado = clave.Decrypt(mensajeEncriptado);
             System.out.println("\nTexto encriptado:\n" + mensajeEncriptado);
             System.out.println("\n\nDesea re encriptar el mensaje con una nueva llave?\n1)Si.\n2)No.\n= ");
             Scanner sc = new Scanner(System.in);
-            int respuesta=sc.nextInt();
-            switch(respuesta){
-                case 1 : clave.reEncrypt(mensajeEncriptado); break;
-                case 2 : break;
-                default: System.out.print("Respuesta inválida."); break;
+            int respuesta = sc.nextInt();
+            switch (respuesta) {
+                case 1:
+                    clave.reEncrypt(mensajeEncriptado);
+                    break;
+                case 2:
+                    break;
+                default:
+                    System.out.print("Respuesta inválida.");
+                    break;
             }
             sc.close();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
-        long tiempo_final=System.nanoTime();
-        double segundos_total=(tiempo_final-tiempo)/1_000_000_000.0;
-        int minutos=(int)(segundos_total/60);
-        int segundos=(int)(segundos_total%60);
-        int decimas=(int)((segundos_total*10)%10);
-        System.out.println(String.format("La ejecución del texto, se demoró (min:seg:dec): '" + minutos + " : " + segundos + " : " + decimas + "'\n"));
+        long tiempo_final = System.nanoTime();
+        System.out.println(String.format("\nLa ejecución del testeo de la Matriz, se demoró: " + tiempo_final + " nanosegundos.\n"));
     }
     public static void IniciarMatriz(char[][] matriz){    //Inicializar la matriz   27+27+10 = 64
         char indice='a', c;
@@ -312,7 +308,7 @@ public class Main{
                 String opcion = sc.next();
                 String llave="";
                 try{
-                    BufferedReader br = new BufferedReader(new FileReader("5Mil_Numbers.txt"));
+                    BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\5Mil_Numbers.txt"));
                     String cantidad = br.readLine();
                     br.close();
                     if(cantidad!=null && cantidad.length()>=5000){

@@ -28,8 +28,8 @@ public class Main{
         System.out.println("Tabla de encriptado vigenere:");
         long tiempo = System.nanoTime();
         BigVigenere clave = new BigVigenere(numericKey);
-        try {                                                                  /*Cambiar la dirrección para que pueda leer el archivo*/
-            BufferedReader Fr = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\El Ultimo Viaje de Elian.txt"));
+        try {
+            BufferedReader Fr = new BufferedReader(new FileReader("El Ultimo Viaje de Elian.txt"));
             StringBuilder texto = new StringBuilder();
             String linea;
             while ((linea = Fr.readLine()) != null) {
@@ -308,7 +308,7 @@ public class Main{
                 String opcion = sc.next();
                 String llave="";
                 try{
-                    BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\5Mil_Numbers.txt"));
+                    BufferedReader br = new BufferedReader(new FileReader("5Mil_Numbers.txt"));
                     String cantidad = br.readLine();
                     br.close();
                     if(cantidad!=null && cantidad.length()>=5000){

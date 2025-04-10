@@ -1,0 +1,165 @@
+ \documentclass[12pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{gensymb}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\setmarginsrb{3 cm}{1.0 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{pst-all}
+\usepackage{pstricks}
+\usepackage{listings}
+\usepackage{float}
+
+\title{Laboratorio Vigenere}					% Titulo
+\author{Matias Rojas \linebreak
+Álvaro Acevedo\linebreak
+Lucano Torroja\linebreak
+\newline
+\bttext{Profesor: \linebreak Marcos Fantoval}}
+\date{09-04-2025}% Fecha
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\usepackage{subfigure}
+\usepackage{gensymb}
+\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.0 cm}
+    \includegraphics[scale = 0.5]{unnamed.png}\\[1.0 cm]	% Logo Universidad
+    \textsc{\LARGE Universidad Diego Portales}\\[0.2 cm]	% Nombre Universidad
+	\textsc{\large ESCUELA DE INFORMÁTICA \& TELECOMUNICACIONES}\\[2 cm]		% Nombre Curso
+	\textsc{\LARGE ESTRUCTURAS DE DATOS \& ANÁLISIS DE ALGORITMOS}\\[1.0 cm]	% Nombre Universidad
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{1.0\textwidth}
+		\begin{center} \large
+			\emph{Autores:}\par
+			\theauthor\linebreak
+			\end{center}
+	\end{minipage}\\[1.5 cm]	
+	{\large \thedate}\\[1 cm]
+ 
+	%\vfill
+	
+\end{titlepage}
+
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Introducción}%%%  casi listo
+
+En este laboratorio de Estructura de Datos se solicitó elaborar un informe sobre el método de protección de mensajes en una red segura mediante el cifrado de red Vigenère, implementado en Java durante las últimas semanas.
+
+En el informe se presentará una descripción de la implementación del constructor, la construcción de la matriz \textbf{alphabet} y el desarrollo paso a paso del atributo \textbf{key}. Se describirán los métodos implementados y se explicará cómo se optimizó la búsqueda de la posición. Por último, se realizará un experimento con el código, se comparará el tiempo que se demora el código en ejecutarse con la \textbf{Notación Big O} calculada y se presentará una conclusión detallada.
+
+
+\section{Métodos}
+
+En la clase \textbf{BigVigenere} se implementaron diversos métodos que permiten cifrar y descifrar mensajes utilizando una matriz de cifrado personalizada. A continuación, se describen los principales métodos utilizados en el desarrollo del laboratorio:
+
+\begin{itemize}
+    \item \textbf{Encrypt(String message)}: Este método recibe un mensaje en texto plano y lo transforma en un mensaje cifrado. Analiza cada carácter del mensaje y determina si se trata de una letra minúscula, mayúscula o un número. Luego, utiliza un valor de la clave para calcular el desplazamiento correspondiente en la matriz \textbf{alphabet}. El resultado es una nueva cadena de texto cifrado.
+
+    \item \textbf{Decrypt(String encryptedMessage)}: Este método realiza el proceso inverso a \textbf{Encrypt}. Recibe un mensaje cifrado y lo descifra utilizando la misma clave, recuperando el texto original. El método busca el carácter original en la matriz \textbf{alphabet} mediante los valores correspondientes de la clave.
+
+    \item \textbf{search(int position)}: Realiza una búsqueda secuencial dentro de la matriz \textbf{alphabet}, recorriendo fila por fila mediante dos bucles anidados, hasta encontrar el carácter correspondiente a la posición indicada. Este método tiene una eficiencia baja, ya que requiere recorrer gran parte o la totalidad de la matriz para encontrar un solo valor.
+
+    \item \textbf{optimalSearch(int position)}: Este método optimiza la búsqueda en la matriz \textbf{alphabet} eliminando el uso de bucles. En lugar de buscar secuencialmente, calcula directamente la fila y la columna del carácter deseado a partir de su posición en una matriz de tamaño 64x64 (4096 elementos). Para lograrlo, utiliza las siguientes fórmulas:
+    \begin{itemize}
+        \item \textbf{fila = position / 64}
+        \item \textbf{columna = position \% 64}
+    \end{itemize}
+    De esta manera, se accede directamente al carácter en la matriz mediante un acceso directo: \textbf{alphabet[fila][columna]}. Esta mejora reduce la complejidad de O(n) a O(1), permitiendo una búsqueda instantánea y optimizando significativamente el rendimiento del cifrado.
+
+    \item \textbf{reEncrypt()}: Permite tomar un mensaje cifrado, descifrarlo y volver a cifrar utilizando una nueva clave.
+
+    \item \textbf{print()}: Muestra en pantalla la matriz \textbf{alphabet}, lo que facilita la comprensión de cómo está estructurado el sistema de cifrado.
+\end{itemize}
+
+
+\section{Resultados}
+
+Se realizó la ejecución del algoritmo de cifrado sobre fragmentos de texto de distintos tamaños, utilizando una clave de 10 dígitos. A continuación, se presentan los tiempos de ejecución medidos en nanosegundos:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Tamaño del mensaje (caracteres)} & \textbf{Tiempo de ejecución (segundos)} \\
+\hline
+1000   & 1,6 \\
+2000   & 2,9 \\
+3000   & 4,3\\
+4000   & 5,8 \\
+5000   & 7,3 \\
+6000   & 8,7 \\
+7000   & 10,2 \\
+8000   & 11,7 \\
+9000   & 13,3 \\
+10000  & 14,7 \\
+\hline
+\end{tabular}
+\caption{\small{Tiempos de ejecución del algoritmo de cifrado para diferentes tamaños de mensaje.}}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{tiempos_ejecucion.png}
+    \caption{\small{Relación entre el tamaño del mensaje y el tiempo de ejecución de encriptado vigenere con una clave de 10 dígitos.}}
+\end{figure}
+\section{Análisis}
+
+Los datos experimentales muestran un crecimiento casi lineal del tiempo de ejecución con respecto al tamaño del mensaje. Esto indica que el algoritmo escala eficientemente al procesar mensajes de mayor longitud.
+
+Observando los resultados, se puede ver que duplicar la cantidad de caracteres produce un incremento proporcional en el tiempo de ejecución. Por ejemplo:
+
+\begin{itemize}
+    \item Para 1000 caracteres: 1.6 s
+    \item Para 2000 caracteres: 3.0 s
+    \item Para 5000 caracteres: 7.3 s
+    \item Para 10000 caracteres: 14.7 s
+\end{itemize}
+
+Este comportamiento es consistente con una complejidad algorítmica de $O(n)$, donde $n$ representa la cantidad de caracteres a cifrar. Cada carácter es procesado de manera individual mediante una búsqueda directa en la tabla de cifrado, sin necesidad de operaciones anidadas ni recorridos adicionales.
+
+Por lo tanto, se concluye que el algoritmo de cifrado implementado tiene una eficiencia lineal con respecto al tamaño del mensaje, lo cual es adecuado para procesar textos de gran tamaño sin una degradación significativa del rendimiento.
+
+
+\section*{5. Conclusiones}
+
+Durante el desarrollo del laboratorio se presentaron diversas dificultades, principalmente relacionadas con la lectura y procesamiento de mensajes extensos. Una de las principales complicaciones fue el uso del \textbf{Scanner} en Java, el cual presentó errores al manejar claves largas y frases con más de 600 caracteres. Este problema fue superado mediante pruebas iterativas y utilizando un \textbf{BufferedReader} el cual es capas de optimizar el proceso en la memoria mejor que Scanner para procesos extensos y a su vez permite aumentar abismalmente la cantidad de caracteres de entrada al codigo ya sea desde el operatorio del buffer \textbf{(new InputStreamReader(System.in))}, como también dandole uso para leer archivos ya iniciados de tipo ".txt" con \textbf{new FileReader("FileName.txt"}, permitiendo así una lectura más eficiente y de mensajes extensos.
+
+En cuanto a la optimización de la búsqueda de posiciones dentro de la matriz \textbf{alphabet}, se logró una mejora significativa mediante la implementación del método \textbf{optimalSearch}. Este método reemplazó la búsqueda secuencial tradicional utilizada en \textbf{search}, que requería recorrer la matriz completa utilizando dos bucles anidados. La mejora consistió en calcular directamente la fila y columna de una posición específica usando una simple división entera y módulo, lo que redujo la complejidad de la operación y aceleró notoriamente el proceso.
+
+Respecto al tamaño de la clave, se recomienda utilizar claves que mantengan un equilibrio entre seguridad y rendimiento. Una clave excesivamente larga puede dificultar su memorización, aumentar la posibilidad de errores humanos y afectar negativamente el tiempo de ejecución, debido al mayor número de desplazamientos requeridos. Por ello, se sugiere utilizar claves de longitud media, suficientemente complejas para garantizar seguridad, pero manejables en términos de uso práctico y eficiencia del algoritmo.
+
+Para resumir, el laboratorio permitió evidenciar cómo la correcta elección de estructuras de datos, combinada con métodos optimizados, mejora significativamente el rendimiento de un algoritmo de cifrado, y cómo pequeñas decisiones, como la longitud de la clave, pueden impactar directamente en la eficiencia general del sistema.
+
+\end{document}

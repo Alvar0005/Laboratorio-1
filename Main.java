@@ -29,7 +29,7 @@ public class Main{
         long tiempo = System.nanoTime();
         BigVigenere clave = new BigVigenere(numericKey);
         try {                                                                  /*Cambiar la dirrección para que pueda leer el archivo*/
-            BufferedReader Fr = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\El Ultimo Viaje de Elian.txt"//nombre del .txt que desee leer));
+            BufferedReader Fr = new BufferedReader(new FileReader("C:\\Users\\matia\\OneDrive\\Escritorio\\Universidad\\Estructuras de Datos y Algoritmos\\Laboratorio 1\\Java\\Main-BigVigenere\\src\\El Ultimo Viaje de Elian.txt"));
             StringBuilder texto = new StringBuilder();
             String linea;
             while ((linea = Fr.readLine()) != null) {
